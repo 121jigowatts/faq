@@ -1,0 +1,1 @@
+INSERT INTO seeds (used_at, created_at, created_by, updated_at, updated_by) VALUES ('2021-02-03 12:34:56.789','2021-02-03 12:34:56.789','test','2021-02-03 12:34:56.789','test');
