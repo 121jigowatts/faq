@@ -1,4 +1,4 @@
-package com.jigowatts.faq.application.service;
+package com.jigowatts.faq.application.component;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
 
-import com.jigowatts.faq.application.component.OrderNumberPublisher;
 import com.jigowatts.faq.domain.model.order.OrderNumber;
 
 import org.junit.jupiter.api.Test;
@@ -16,19 +15,22 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class IdsServiceTest {
+public class OrderNumberPublisherTest {
     @Mock
-    OrderNumberPublisher orderNumberPublisher;
+    DateTimeResolver dateTimeResolver;
+    @Mock
+    UniqueIdGenerator uniqueIdGenerator;
     @InjectMocks
-    IdsServiceImpl target;
+    OrderNumberPublisherImpl target;
 
     @Test
     void test_publish() {
-        doReturn(new OrderNumber(LocalDate.of(2021, 2, 3), "A1b2c3D4")).when(orderNumberPublisher).publish();
-
+        doReturn(LocalDate.of(2021, 2, 3)).when(dateTimeResolver).getCurrentDate();
+        doReturn("A1b2c3D4").when(uniqueIdGenerator).generate();
         OrderNumber actual = target.publish();
 
-        verify(orderNumberPublisher, times(1)).publish();
+        verify(dateTimeResolver, times(1)).getCurrentDate();
+        verify(uniqueIdGenerator, times(1)).generate();
         assertEquals("20210203A1b2c3D4", actual.toString());
     }
 }

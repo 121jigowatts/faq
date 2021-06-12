@@ -24,7 +24,7 @@ public class HomeController {
     @CrossOrigin
     @GetMapping(value = "/order/number")
     public String orderNumber() {
-        var orderNumber = idsService.generate();
+        var orderNumber = idsService.publish();
         return orderNumber.toString();
     }
 }

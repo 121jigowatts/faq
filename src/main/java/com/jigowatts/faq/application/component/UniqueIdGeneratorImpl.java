@@ -9,17 +9,17 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Component
-@Transactional
 @RequiredArgsConstructor
 public class UniqueIdGeneratorImpl implements UniqueIdGenerator {
     private final SeedsMapper seedsMapper;
     private final DateTimeResolver dateTimeResolver;
-    private final HashidsAdapter hashidsGenerator;
+    private final HashidsAdapter hashidsAdapter;
 
     @Override
+    @Transactional
     public String generate() {
         var seed = Seed.builder().usedAt(dateTimeResolver.getCurrentDateTime()).build();
         seedsMapper.insert(seed);
-        return hashidsGenerator.encode(seed.getId());
+        return hashidsAdapter.encode(seed.getId());
     }
 }
